@@ -20,7 +20,8 @@
 
   },
   "autoload": {
-    "psr-0": { "Pawellen\\ListingBundle": "" }
-  },
-  "target-dir": "Pawellen/listing"
+    "psr-4": {
+      "Pawellen\\ListingBundle": "/"
+    }
+  }
 }
