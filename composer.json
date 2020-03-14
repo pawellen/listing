@@ -5,7 +5,7 @@
   "description": "Listing Bundle providing easy datatables (http://www.datatables.net/) usage",
   "keywords": ["datatables", "listing", "grid"],
   "homepage": "https://github.com/pawellen/listing",
-  "license": "Apache2",
+  "license": "MIT",
   "authors": [
     {
       "name": "Pawel Len",
