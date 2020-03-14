@@ -1,0 +1,25 @@
+{
+  "name": "pawellen/listing",
+  "type": "symfony-bundle",
+  "description": "Listing Bundle providing easy datatables (http://www.datatables.net/) usage",
+  "keywords": ["datatables", "listing", "grid"],
+  "homepage": "https://github.com/pawellen/listing",
+  "license": "Apache2",
+  "authors": [
+    {
+      "name": "Pawel Len",
+      "email": "pawel.len@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.19",
+    "symfony/framework-bundle": "4.4.*"
+  },
+  "require-dev": {
+
+  },
+  "autoload": {
+    "psr-0": { "Pawellen\\Listing": "" }
+  },
+  "target-dir": "Pawellen/listing"
+}
