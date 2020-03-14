@@ -1,5 +1,6 @@
 {
   "name": "pawellen/listing",
+  "version": "0.1.0",
   "type": "symfony-bundle",
   "description": "Listing Bundle providing easy datatables (http://www.datatables.net/) usage",
   "keywords": ["datatables", "listing", "grid"],
