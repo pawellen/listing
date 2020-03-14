@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Listing\Filter;
+namespace Pawellen\ListingBundle\Listing\Filter;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
-use App\Pawellen\ListingBundle\Listing\Filter\Type\ListingFilterType;
+use Pawellen\ListingBundle\Listing\Filter\Type\ListingFilterType;
 
 
 class Filters implements \Iterator, \ArrayAccess

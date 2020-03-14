@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Listing;
+namespace Pawellen\ListingBundle\Listing;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Pawellen\ListingBundle\Listing\Column\ColumnBuilder;
-use App\Pawellen\ListingBundle\Listing\Filter\FilterBuilder;
+use Pawellen\ListingBundle\Listing\Column\ColumnBuilder;
+use Pawellen\ListingBundle\Listing\Filter\FilterBuilder;
 
 
 interface ListingTypeInterface

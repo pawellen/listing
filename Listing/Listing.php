@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Listing;
+namespace Pawellen\ListingBundle\Listing;
 
-use App\Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
-use App\Pawellen\ListingBundle\Listing\Filter\Type\ListingFilter;
+use Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
+use Pawellen\ListingBundle\Listing\Filter\Type\ListingFilter;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Pawellen\ListingBundle\Listing\Column\Columns;
-use App\Pawellen\ListingBundle\Listing\Filter\Filters;
-use App\Pawellen\ListingBundle\Renderer\ListingRenderer;
+use Pawellen\ListingBundle\Listing\Column\Columns;
+use Pawellen\ListingBundle\Listing\Filter\Filters;
+use Pawellen\ListingBundle\Renderer\ListingRenderer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccessor;

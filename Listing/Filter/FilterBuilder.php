@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Listing\Filter;
+namespace Pawellen\ListingBundle\Listing\Filter;
 
-use App\Pawellen\ListingBundle\Listing\Filter\Type\ListingFilter;
-use App\Pawellen\ListingBundle\Listing\Filter\Type\ListingFilterType;
+use Pawellen\ListingBundle\Listing\Filter\Type\ListingFilter;
+use Pawellen\ListingBundle\Listing\Filter\Type\ListingFilterType;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;

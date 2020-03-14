@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pawellen\ListingBundle;
+namespace Pawellen\ListingBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

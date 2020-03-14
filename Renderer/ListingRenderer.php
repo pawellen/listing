@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Pawellen\ListingBundle\Renderer;
+namespace Pawellen\ListingBundle\Renderer;
 
-use App\Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
-use App\Pawellen\ListingBundle\Listing\ListingView;
+use Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
+use Pawellen\ListingBundle\Listing\ListingView;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Twig\Environment;
 use Symfony\Component\Routing\Router;

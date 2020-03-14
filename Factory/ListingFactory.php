@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Factory;
+namespace Pawellen\ListingBundle\Factory;
 
-use App\Pawellen\ListingBundle\Listing\Column\ColumnBuilder;
-use App\Pawellen\ListingBundle\Listing\Filter\FilterBuilder;
-use App\Pawellen\ListingBundle\Listing\Listing;
-use App\Pawellen\ListingBundle\Renderer\ListingRenderer;
-use App\Pawellen\ListingBundle\Listing\ListingTypeInterface;
+use Pawellen\ListingBundle\Listing\Column\ColumnBuilder;
+use Pawellen\ListingBundle\Listing\Filter\FilterBuilder;
+use Pawellen\ListingBundle\Listing\Listing;
+use Pawellen\ListingBundle\Renderer\ListingRenderer;
+use Pawellen\ListingBundle\Listing\ListingTypeInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\OptionsResolver\Options;

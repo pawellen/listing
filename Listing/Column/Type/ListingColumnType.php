@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Listing\Column\Type;
+namespace Pawellen\ListingBundle\Listing\Column\Type;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 

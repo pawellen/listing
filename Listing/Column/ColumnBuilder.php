@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Listing\Column;
+namespace Pawellen\ListingBundle\Listing\Column;
 
-use App\Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
+use Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
 
 
 class ColumnBuilder

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Twig;
+namespace Pawellen\ListingBundle\Twig;
 
 use Twig\TwigFunction;
 use Twig\Extension\AbstractExtension;
-use App\Pawellen\ListingBundle\Listing\ListingView;
-use App\Pawellen\ListingBundle\Renderer\ListingRenderer;
+use Pawellen\ListingBundle\Listing\ListingView;
+use Pawellen\ListingBundle\Renderer\ListingRenderer;
 
 
 class ListingExtension extends AbstractExtension

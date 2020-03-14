@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Listing\Filter\Type;
+namespace Pawellen\ListingBundle\Listing\Filter\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 

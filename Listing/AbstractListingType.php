@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Listing;
+namespace Pawellen\ListingBundle\Listing;
 
-use App\Pawellen\ListingBundle\Listing\Filter\FilterBuilder;
+use Pawellen\ListingBundle\Listing\Filter\FilterBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 

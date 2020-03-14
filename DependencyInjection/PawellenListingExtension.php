@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\DependencyInjection;
+namespace Pawellen\ListingBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;

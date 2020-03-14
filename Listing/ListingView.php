@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pawellen\ListingBundle\Listing;
+namespace Pawellen\ListingBundle\Listing;
 
-use App\Pawellen\ListingBundle\Listing\Column\Columns;
-use App\Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
-use App\Pawellen\ListingBundle\Listing\Filter\Filters;
+use Pawellen\ListingBundle\Listing\Column\Columns;
+use Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
+use Pawellen\ListingBundle\Listing\Filter\Filters;
 use Symfony\Component\Form\FormView;
 
 
