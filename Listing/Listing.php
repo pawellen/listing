@@ -113,6 +113,20 @@ class Listing
 
 
     /**
+     * @return bool|null
+     */
+    public function isDataRequest(): ?bool
+    {
+        $request = $this->options['request'] ?? null;
+        if ($request instanceof Request) {
+            return $request->isXmlHttpRequest();
+        }
+
+        return null;
+    }
+
+
+    /**
      * @return array
      */
     protected function getInitialData(): array
