@@ -4,3 +4,6 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
+
+    Pawellen\ListingBundle\Renderer\ListingRenderer: ~
+
