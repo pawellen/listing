@@ -5,13 +5,14 @@ services:
             $formFactory: '@form.factory'
             $doctrine: '@doctrine'
             $renderer: '@pawellen.listing.listing_renderer'
+            $config: '%pawellen_listing%'
 
     pawellen.listing.listing_renderer:
         class: Pawellen\ListingBundle\Renderer\ListingRenderer
         arguments:
             $twig: '@twig'
             $router: '@router'
-            $containerBag: '@parameter_bag'
+            $config: '%pawellen_listing%'
 
     pawellen.listing.listing_extension:
         class: Pawellen\ListingBundle\Twig\ListingExtension

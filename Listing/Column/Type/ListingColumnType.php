@@ -105,7 +105,7 @@ abstract class ListingColumnType implements ListingColumnTypeInterface
 
             case 1:
                 $iterator = 0;
-                $values = array();
+                $values = [];
                 while (1) {
                     try {
                         $propertyPathIterator = str_replace('[*]', '[' . $iterator . ']', $propertyPath);

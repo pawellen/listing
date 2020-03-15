@@ -17,6 +17,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('template')
                     ->defaultValue('@PawellenListing/listing_div_layout.html.twig')
                 ->end()
+                ->integerNode('default_page_length')
+                    ->defaultValue(10)
+                ->end()
             ->end()
         ;
 

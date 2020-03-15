@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Pawellen\ListingBundle\Renderer;
 
 use Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
@@ -18,48 +17,51 @@ use Twig\TemplateWrapper;
 class ListingRenderer
 {
     /** @var Environment */
-    private $twig;
+    protected $twig;
 
     /** @var Router */
-    private $router;
+    protected $router;
 
     /** @var object */
-    private $config;
+    protected $config;
 
     /** @var TemplateWrapper */
-    private $template;
+    protected $template;
+
+    /** @var bool */
+    protected $silent = false;
 
 
     /**
      * ListingRenderer constructor.
      * @param Environment $twig
      * @param RouterInterface $router
-     * @param ContainerBagInterface $containerBag
+     * @param array $config
      */
-    public function __construct(Environment $twig, RouterInterface $router, ContainerBagInterface $containerBag)
+    public function __construct(Environment $twig, RouterInterface $router, array $config)
     {
         $this->twig = $twig;
         $this->router = $router;
-        $this->config = (object)$containerBag->get('pawellen_listing');
+        $this->config = (object)$config;
     }
 
 
     /**
      * @param ListingView $listingView
      * @return string
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws \Throwable
      */
     public function renderListing(ListingView $listingView): string
     {
-        $this->load();
+        try {
+            $this->load();
 
-        return $this->template->renderBlock('listing', [
-            'listing' => $listingView,
-            'filters' => $listingView->getFiltersFormView()
-        ]);
+            return $this->template->renderBlock('listing', [
+                'listing' => $listingView,
+                'filters' => $listingView->getFiltersFormView()
+            ]);
+        } catch (\Throwable $t) {
+            return $this->silent ? '!' : $t->getMessage();
+        }
     }
 
 
@@ -67,36 +69,32 @@ class ListingRenderer
      * @param ListingColumn $column
      * @param $row
      * @return string
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws \Throwable
      */
     public function renderCell(ListingColumn $column, $row): string
     {
-        $this->load();
+        try {
+            $this->load();
 
-        // Load and process value:
-        $values = $column->getValues($row);
+            // Load and process value:
+            $values = $column->getValues($row);
 
-        // Create template block name and parameters:
-        $blockName = 'listing_' . $column->getType();
-        $parameters = array_merge([
-            'column' => $column,
-            'row'    => $row,
-        ], $values);
+            // Create template block name and parameters:
+            $blockName = 'listing_' . $column->getType();
+            $parameters = array_merge([
+                'column' => $column,
+                'row'    => $row,
+            ], $values);
 
-        // Render block:
-        return $this->template->renderBlock($blockName, $parameters);
+            // Render block:
+            return $this->template->renderBlock($blockName, $parameters);
+        } catch (\Throwable $t) {
+            return $this->silent ? '!' : $t->getMessage();
+        }
     }
 
 
     /**
      * @return string
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws \Throwable
      */
     public function renderListingAssets(): string
     {
@@ -110,16 +108,16 @@ class ListingRenderer
      * @param string $name
      * @param array $params
      * @return string
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws \Throwable
      */
     public function renderListingBlock(string $name, array $params = []): string
     {
-        $this->load();
+        try {
+            $this->load();
 
-        return $this->template->renderBlock($name, $params);
+            return $this->template->renderBlock($name, $params);
+        } catch (\Throwable $t) {
+            return $this->silent ? '!' : $t->getMessage();
+        }
     }
 
 
@@ -135,7 +133,7 @@ class ListingRenderer
             return;
         }
 
-        $this->template = $this->twig->load($this->config->template);
+        $this->template = $this->twig->load($template ?: $this->config->template);
     }
 
 

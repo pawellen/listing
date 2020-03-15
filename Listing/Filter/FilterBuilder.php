@@ -52,7 +52,7 @@ class FilterBuilder
      * @param array $options
      * @return ListingFilterType
      */
-    public function create(string $name, string $type, array $options = array()): ListingFilterType
+    public function create(string $name, string $type, array $options = []): ListingFilterType
     {
         $filter_options = $options['filter'] ?? [];
         if (!is_array($filter_options)) {

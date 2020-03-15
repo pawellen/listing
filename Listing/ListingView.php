@@ -134,10 +134,10 @@ class ListingView
 
         /** @var ListingColumn $column */
         foreach ($this->columns as $column) {
-            $columns[] = array(
+            $columns[] = [
                 'searchable'    => $column->isSearchable(),
                 'orderable'     => $column->isSortable(),
-            );
+            ];
         }
 
         return [

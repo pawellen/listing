@@ -24,6 +24,9 @@ class ListingFactory
     /** @var ListingRenderer */
     protected $renderer;
 
+    /** @var object */
+    private $config;
+
     /** @var ?string */
     protected $defaultIdProperty = null;
 
@@ -33,12 +36,14 @@ class ListingFactory
      * @param FormFactoryInterface $formFactory
      * @param ManagerRegistry $doctrine
      * @param ListingRenderer $renderer
+     * @param array $config
      */
-    public function __construct(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, ListingRenderer $renderer)
+    public function __construct(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, ListingRenderer $renderer, array $config)
     {
         $this->formFactory = $formFactory;
         $this->doctrine = $doctrine;
         $this->renderer = $renderer;
+        $this->config = (object)$config;
     }
 
 
@@ -93,7 +98,7 @@ class ListingFactory
         $optionsResolver->setDefaults([
             'data_source'       => $dataSourceResolver,
             //'date_format'       => 'd-m-Y H:i:s',
-            'page_length'       => 10,
+            'page_length'       => $this->config->default_page_length ?? 10,
             'page_length_menu'  => [10, 25, 50, 100, -1],
             'auto_width'        => true,
             'row_attr'          => [

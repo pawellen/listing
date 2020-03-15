@@ -42,7 +42,7 @@ class Listing
     protected $firstResultsOffset;
 
     /** @var PropertyAccessor */
-    private $propertyAccessor;
+    protected $propertyAccessor;
 
 
 

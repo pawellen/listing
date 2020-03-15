@@ -10,18 +10,14 @@ class ListingColumn extends ListingColumnType
      */
     public function isSortable(): bool
     {
-        if (isset($this->options['order_by']) && !$this->options['order_by']) {
-            return false;
-        }
-
-        return true;
+        return isset($this->options['order_by']) && !$this->options['order_by'] ? false : true;
     }
 
 
     /**
      * @inheritdoc
      */
-    public function getValues($row)
+    public function getValues($row): array
     {
         $property = isset($this->options['property']) ? $this->options['property'] : $this->getName();
         $value = $this->getPropertyValue($row, $property);
@@ -32,20 +28,20 @@ class ListingColumn extends ListingColumnType
         }
 
         // Build parameters:
-        $parameters = array();
+        $parameters = [];
         if (isset($this->options['parameters'])) {
             foreach ($this->options['parameters'] as $name => $propertyPath) {
                 $parameters[$name] = $this->getPropertyValue($row, $propertyPath);
             }
         }
 
-        return array(
+        return [
             'value' => $value,
             'parameters' => $parameters,
             'options' => $this->options,
             'name' => $this->name,
             'row' => $row
-        );
+        ];
     }
 
 
