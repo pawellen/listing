@@ -1,9 +1,26 @@
-parameters:
-
 services:
-  _defaults:
-    autowire: true
-    autoconfigure: true
+    pawellen.listing.listing_factory:
+        class: Pawellen\ListingBundle\Factory\ListingFactory
+        arguments:
+            $formFactory: '@form.factory'
+            $doctrine: '@doctrine'
+            $renderer: '@pawellen.listing.listing_renderer'
 
-    Pawellen\ListingBundle\Renderer\ListingRenderer: ~
+    pawellen.listing.listing_renderer:
+        class: Pawellen\ListingBundle\Renderer\ListingRenderer
+        arguments:
+            $twig: '@twig'
+            $router: '@router'
+            $containerBag: '@parameter_bag'
 
+    pawellen.listing.listing_extension:
+        class: Pawellen\ListingBundle\Twig\ListingExtension
+        arguments:
+            $renderer: '@pawellen.listing.listing_renderer'
+        tags:
+            - { name: twig.extension }
+
+
+    Pawellen\ListingBundle\Factory\ListingFactory: '@pawellen.listing.listing_factory'
+    Pawellen\ListingBundle\Renderer\ListingRenderer: '@pawellen.listing.listing_renderer'
+    Pawellen\ListingBundle\Twig\ListingExtension: '@pawellen.listing.listing_extension'
