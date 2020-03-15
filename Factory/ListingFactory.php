@@ -8,6 +8,7 @@ use Pawellen\ListingBundle\Listing\Listing;
 use Pawellen\ListingBundle\Renderer\ListingRenderer;
 use Pawellen\ListingBundle\Listing\ListingTypeInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -44,6 +45,20 @@ class ListingFactory
         $this->doctrine = $doctrine;
         $this->renderer = $renderer;
         $this->config = (object)$config;
+    }
+
+
+    /**
+     * @param string $typeClass
+     * @param Request $request
+     * @param array $options
+     * @return Listing
+     */
+    public function create(string $typeClass, Request $request, array $options = []): Listing
+    {
+        return $this->createListing(new $typeClass(), array_merge($options, [
+            'request' => $request
+        ]));
     }
 
 
