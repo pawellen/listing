@@ -173,4 +173,14 @@ class ListingFactory
         return $filterBuilder;
     }
 
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    public static function createCamelcaseName(string $name): string
+    {
+        return ltrim(strtolower(preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '_$0', $name)), '_');
+    }
+
 }

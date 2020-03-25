@@ -2,6 +2,7 @@
 
 namespace Pawellen\ListingBundle\Listing;
 
+use Pawellen\ListingBundle\Factory\ListingFactory;
 use Pawellen\ListingBundle\Listing\Column\Columns;
 use Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
 use Pawellen\ListingBundle\Listing\Filter\Filters;
@@ -30,6 +31,9 @@ class ListingView
 
    /** @var int */
     protected $allResultCount;
+
+    /** @var FormView|null */
+    protected $formView;
 
 
     /**
@@ -85,7 +89,13 @@ class ListingView
      */
     public function getFiltersFormView(): FormView
     {
-        return $this->filters->getForm()->createView();
+        if (!$this->formView) {
+            $this->formView = $this->filters->getForm()->createView();
+            $parts = explode('_', $this->name);
+            $this->formView->vars['block_prefixes'][] = ListingFactory::createCamelcaseName(end($parts));
+        }
+
+        return $this->formView;
     }
 
 
