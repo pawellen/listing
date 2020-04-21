@@ -11,6 +11,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use Twig\Template;
 use Twig\TemplateWrapper;
 
 
@@ -25,8 +26,11 @@ class ListingRenderer
     /** @var object */
     protected $config;
 
-    /** @var TemplateWrapper */
+    /** @var Template */
     protected $template;
+
+    /** @var array */
+    protected $blocks = [];
 
     /** @var bool */
     protected $silent = false;
@@ -58,7 +62,7 @@ class ListingRenderer
             return $this->template->renderBlock('listing', [
                 'listing' => $listingView,
                 'filters' => $listingView->getFiltersFormView()
-            ]);
+            ], $this->blocks);
         } catch (\Throwable $t) {
             return $this->silent ? '!' : $t->getMessage();
         }
@@ -86,7 +90,7 @@ class ListingRenderer
             ], $values);
 
             // Render block:
-            return $this->template->renderBlock($blockName, $parameters);
+            return $this->template->renderBlock($blockName, $parameters, $this->blocks);
         } catch (\Throwable $t) {
             return $this->silent ? '!' : $t->getMessage();
         }
@@ -114,7 +118,7 @@ class ListingRenderer
         try {
             $this->load();
 
-            return $this->template->renderBlock($name, $params);
+            return $this->template->renderBlock($name, $params, $this->blocks);
         } catch (\Throwable $t) {
             return $this->silent ? '!' : $t->getMessage();
         }
@@ -133,7 +137,11 @@ class ListingRenderer
             return;
         }
 
-        $this->template = $this->twig->load($template ?: $this->config->template);
+        $this->template = $this->twig->load($this->config->template)->unwrap();
+        $this->blocks = array_merge(
+            $this->template->getBlocks() ?: [],
+            $template ? $this->twig->load($template)->unwrap()->getBlocks() : []
+        );
     }
 
 

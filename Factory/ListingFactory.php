@@ -100,7 +100,6 @@ class ListingFactory
             'request'
         ]);
         $optionsResolver->setDefined([
-            'template',
             'class',
             'query_builder',
             'process_result_callback',
@@ -111,6 +110,7 @@ class ListingFactory
         ]);
 
         $optionsResolver->setDefaults([
+            'template'          => $this->getDefaultTemplate($options),
             'data_source'       => $dataSourceResolver,
             //'date_format'       => 'd-m-Y H:i:s',
             'page_length'       => $this->config->default_page_length ?? 10,
@@ -122,7 +122,7 @@ class ListingFactory
             ],
             'order_column'      => [],
             'save_state'        => false,
-            'defer_load'        => false
+            'defer_load'        => false,
         ]);
         $optionsResolver->addNormalizer('page_length_menu', $pageLengthMenuOptionsNormalizer);
 
@@ -171,6 +171,20 @@ class ListingFactory
         }
 
         return $filterBuilder;
+    }
+
+
+    /**
+     * @param array $options
+     * @return string|null
+     */
+    protected function getDefaultTemplate(array $options): ?string
+    {
+        if (isset($options['request']) && $options['request']->get('_template')) {
+            return $options['request']->get('_template')->getTemplate();
+        }
+
+        return null;
     }
 
 
