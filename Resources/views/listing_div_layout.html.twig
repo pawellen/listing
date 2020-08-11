@@ -152,16 +152,16 @@
 
 
 {% block _column_actions %}
-    <td><a class="btn btn-primary" href="{{ path(column.options.options.routePrefix ~ '_update', {id: row.id}) }}">Edit</a></td>
+    <td><a class="btn btn-primary" href="{{ path(column.options.options.routePrefix ~ '_update', {id: row.id}) }}">{{ 'Edit'|trans }}</a></td>
 {% endblock %}
 
 
 {% block _column_isActive %}
     <td>
         {% if value %}
-            <span class="label label-success">Yes</span>
+            <span class="label label-success">{{ 'Yes'|trans }}</span>
         {% else %}
-            <span class="label label-default">No</span>
+            <span class="label label-default">{{ 'No'|trans }}</span>
         {% endif %}
     </td>
 {% endblock %}
@@ -170,9 +170,9 @@
 {% block _column_isDefault %}
     <td>
         {% if value %}
-            <span class="label label-success">Yes</span>
+            <span class="label label-success">{{ 'Yes'|trans }}</span>
         {% else %}
-            <span class="label label-default">No</span>
+            <span class="label label-default">{{ 'No'|trans }}</span>
         {% endif %}
     </td>
 {% endblock %}
