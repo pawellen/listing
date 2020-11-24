@@ -20,6 +20,15 @@ class Configuration implements ConfigurationInterface
                 ->integerNode('default_page_length')
                     ->defaultValue(10)
                 ->end()
+                ->booleanNode('default_save_state')
+                    ->defaultValue(false)
+                ->end()
+                ->booleanNode('default_defer_load')
+                    ->defaultValue(false)
+                ->end()
+                ->booleanNode('default_auto_width')
+                    ->defaultValue(true)
+                ->end()
             ->end()
         ;
 

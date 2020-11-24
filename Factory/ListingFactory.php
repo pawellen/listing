@@ -115,14 +115,14 @@ class ListingFactory
             //'date_format'       => 'd-m-Y H:i:s',
             'page_length'       => $this->config->default_page_length ?? 10,
             'page_length_menu'  => [10, 25, 50, 100, -1],
-            'auto_width'        => true,
+            'auto_width'        => $this->config->default_auto_width ?? true,
             'row_attr'          => [
                 'id'    => $this->defaultIdProperty ?: null,
                 'class' => null
             ],
             'order_column'      => [],
-            'save_state'        => false,
-            'defer_load'        => false,
+            'save_state'        => $this->config->default_save_state ?? false,
+            'defer_load'        => $this->config->default_defer_load ?? false,
         ]);
         $optionsResolver->addNormalizer('page_length_menu', $pageLengthMenuOptionsNormalizer);
 

@@ -30,10 +30,10 @@ class ListingExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('renderListing',       [$this, 'renderListing'],       ['is_safe' => ['html']]),
-            new TwigFunction('renderListingJs',     [$this, 'renderListingJs'], ['is_safe' => ['html']]),
-            new TwigFunction('renderListingCss',    [$this, 'renderListingCss'], ['is_safe' => ['html']]),
-            new TwigFunction('renderListingAssets', [$this, 'renderListingAssets'], ['is_safe' => ['html']]),
+            new TwigFunction('renderListing',           [$this, 'renderListing'],           ['is_safe' => ['html']]),
+            new TwigFunction('renderListingJs',         [$this, 'renderListingJs'],         ['is_safe' => ['html']]),
+            new TwigFunction('renderListingCss',        [$this, 'renderListingCss'],        ['is_safe' => ['html']]),
+            new TwigFunction('renderListingAssets',     [$this, 'renderListingAssets'],     ['is_safe' => ['html']]),
         ];
     }
 
