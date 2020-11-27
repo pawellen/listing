@@ -90,7 +90,24 @@ class ListingView
     public function getFiltersFormView(): FormView
     {
         if (!$this->formView) {
-            $this->formView = $this->filters->getForm()->createView();
+            // Create form:
+            $form = $this->filters->getForm();
+
+            // Submit form:
+            if ($this->options['submit_filters']) {
+                $form->submit(array_merge(
+                    $this->options['request']->query->all(),
+                    $this->options['request']->request->all()
+                ));
+
+                // Disable save state when data is submitted:
+                if ($form->isSubmitted()) {
+                    $this->options['save_state'] = false;
+                }
+            }
+
+            // Create view:
+            $this->formView = $form->createView();
             $parts = explode('_', $this->name);
             $this->formView->vars['block_prefixes'][] = ListingFactory::createCamelcaseName(end($parts));
         }

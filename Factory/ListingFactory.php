@@ -123,6 +123,7 @@ class ListingFactory
             'order_column'      => [],
             'save_state'        => $this->config->default_save_state ?? false,
             'defer_load'        => $this->config->default_defer_load ?? false,
+            'submit_filters'    => true,
         ]);
         $optionsResolver->addNormalizer('page_length_menu', $pageLengthMenuOptionsNormalizer);
 
@@ -164,14 +165,15 @@ class ListingFactory
     protected function createFilterBuilder(ListingTypeInterface $type = null, array $options = []): FilterBuilder
     {
         if ($type instanceof ListingTypeInterface) {
-            $filterBuilder = new FilterBuilder($this->formFactory, $type->getName(), $options['request']);
+            $filterBuilder = new FilterBuilder($this->formFactory, $options, $type->getName());
             $type->buildFilters($filterBuilder, $options);
         } else {
-            $filterBuilder = new FilterBuilder($this->formFactory, '', $options['request']);
+            $filterBuilder = new FilterBuilder($this->formFactory, $options);
         }
 
         return $filterBuilder;
     }
+
 
     /**
      * @param array $options
