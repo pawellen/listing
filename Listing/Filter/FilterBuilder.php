@@ -8,6 +8,7 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class FilterBuilder
@@ -18,14 +19,22 @@ class FilterBuilder
     /** @var array */
     protected $children = [];
 
+    /** @var Request|null */
+    protected $request;
+
 
     /**
      * @param FormFactoryInterface $formFactory
      * @param string $name
      */
-    public function __construct(FormFactoryInterface $formFactory, string $name = '')
+    public function __construct(FormFactoryInterface $formFactory, string $name = '', ?Request $request = null)
     {
-        $this->formBuilder = $formFactory->createNamedBuilder($name);
+        $this->formBuilder = $formFactory->createNamedBuilder($name, 'Symfony\Component\Form\Extension\Core\Type\FormType', null, [
+            'csrf_protection' => false,
+            'allow_extra_fields' => true,
+        ]);
+
+        $this->request = $request;
     }
 
 
@@ -80,7 +89,12 @@ class FilterBuilder
      */
     public function getForm(): FormInterface
     {
-        return $this->formBuilder->getForm();
+        $form = $this->formBuilder->getForm();
+        if ($this->request) {
+            $form->submit($this->request->query->all());
+        }
+
+        return $form;
     }
 
 }

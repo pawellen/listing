@@ -164,15 +164,14 @@ class ListingFactory
     protected function createFilterBuilder(ListingTypeInterface $type = null, array $options = []): FilterBuilder
     {
         if ($type instanceof ListingTypeInterface) {
-            $filterBuilder = new FilterBuilder($this->formFactory, $type->getName());
+            $filterBuilder = new FilterBuilder($this->formFactory, $type->getName(), $options['request']);
             $type->buildFilters($filterBuilder, $options);
         } else {
-            $filterBuilder = new FilterBuilder($this->formFactory);
+            $filterBuilder = new FilterBuilder($this->formFactory, '', $options['request']);
         }
 
         return $filterBuilder;
     }
-
 
     /**
      * @param array $options
