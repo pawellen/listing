@@ -340,13 +340,11 @@ class Listing
             } elseif (isset($options['expression'])) {
                 $expression = $options['expression'];
                 $parameters_count = substr_count($expression, '?');
-                if ($parameters_count > 0) {
-                    for ($i = 0; $i < $parameters_count; $i++, $arg++) {
-                        $expression = preg_replace('/\?/', ':arg_'.$arg, $expression, 1);
-                        $queryBuilder->setParameter(':arg_'.$arg, $value);
-                    }
-                    $queryBuilder->andWhere($expression);
+                for ($i = 0; $i < $parameters_count; $i++, $arg++) {
+                    $expression = preg_replace('/\?/', ':arg_'.$arg, $expression, 1);
+                    $queryBuilder->setParameter(':arg_'.$arg, $value);
                 }
+                $queryBuilder->andWhere($expression);
             } else {
                 $field = $this->getRootAliasFieldName($queryBuilder, $filter->getName());
                 if ($filter->getFormBuilder()->getType() == 'entity') {
