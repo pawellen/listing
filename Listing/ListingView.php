@@ -153,9 +153,10 @@ class ListingView
 
 
     /**
+     * @param array $settings
      * @return array
      */
-    public function getSettings(): array
+    public function getSettings(array $settings = []): array
     {
         $columns = [];
 
@@ -175,16 +176,17 @@ class ListingView
             'autoWidth'     => $this->options['auto_width'],
             'order'         => $this->options['order_column'],
             'stateSave'     => $this->options['save_state'],
-        ], $this->options['view_settings'] ?: []);
+        ], $settings, $this->options['view_settings'] ?: []);
     }
 
 
     /**
+     * @param array $settings
      * @return string
      */
-    public function getSettingsJson(): string
+    public function getSettingsJson(array $settings = []): string
     {
-        return json_encode($this->getSettings());
+        return json_encode($this->getSettings($settings));
     }
 
 }
