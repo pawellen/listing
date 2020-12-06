@@ -167,7 +167,7 @@ class ListingView
             ];
         }
 
-        return [
+        return array_merge([
             'pageLength'    => $this->options['page_length'],
             'columns'       => $columns,
             'deferLoading'  => (!$this->options['defer_load'] && $this->options['page_length']) ? $this->allResultCount : null,
@@ -175,7 +175,7 @@ class ListingView
             'autoWidth'     => $this->options['auto_width'],
             'order'         => $this->options['order_column'],
             'stateSave'     => $this->options['save_state'],
-        ];
+        ], $this->options['view_settings'] ?: []);
     }
 
 
