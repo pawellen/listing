@@ -1,27 +1,25 @@
 services:
-    pawellen.listing.listing_factory:
-        class: Pawellen\ListingBundle\Factory\ListingFactory
-        arguments:
-            $formFactory: '@form.factory'
-            $doctrine: '@doctrine'
-            $renderer: '@pawellen.listing.listing_renderer'
-            $config: '%pawellen_listing%'
+    Pawellen\ListingBundle\Factory\Extensions: ~
 
-    pawellen.listing.listing_renderer:
-        class: Pawellen\ListingBundle\Renderer\ListingRenderer
+    Pawellen\ListingBundle\Renderer\ListingRenderer:
         arguments:
             $twig: '@twig'
             $router: '@router'
             $config: '%pawellen_listing%'
 
-    pawellen.listing.listing_extension:
-        class: Pawellen\ListingBundle\Twig\ListingExtension
+    Pawellen\ListingBundle\Twig\ListingExtension:
         arguments:
-            $renderer: '@pawellen.listing.listing_renderer'
+            $renderer: '@Pawellen\ListingBundle\Renderer\ListingRenderer'
         tags:
             - { name: twig.extension }
 
+    pawellen.listing.listing_factory:
+        class: Pawellen\ListingBundle\Factory\ListingFactory
+        arguments:
+            $formFactory: '@form.factory'
+            $doctrine: '@doctrine'
+            $extensions: '@Pawellen\ListingBundle\Factory\Extensions'
+            $renderer: '@Pawellen\ListingBundle\Renderer\ListingRenderer'
+            $config: '%pawellen_listing%'
 
     Pawellen\ListingBundle\Factory\ListingFactory: '@pawellen.listing.listing_factory'
-    Pawellen\ListingBundle\Renderer\ListingRenderer: '@pawellen.listing.listing_renderer'
-    Pawellen\ListingBundle\Twig\ListingExtension: '@pawellen.listing.listing_extension'

@@ -22,6 +22,9 @@ class ListingFactory
     /** @var ManagerRegistry */
     protected $doctrine;
 
+    /** @var ListingExtensions */
+    protected $extensions;
+
     /** @var ListingRenderer */
     protected $renderer;
 
@@ -36,27 +39,36 @@ class ListingFactory
      * ListingFactory constructor.
      * @param FormFactoryInterface $formFactory
      * @param ManagerRegistry $doctrine
+     * @param Extensions $extensions
      * @param ListingRenderer $renderer
      * @param array $config
      */
-    public function __construct(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, ListingRenderer $renderer, array $config)
+    public function __construct(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Extensions $extensions, ListingRenderer $renderer, array $config)
     {
         $this->formFactory = $formFactory;
         $this->doctrine = $doctrine;
+        $this->extensions = $extensions;
         $this->renderer = $renderer;
         $this->config = (object)$config;
     }
 
 
     /**
-     * @param string $typeClass
+     * @param string $type
      * @param Request $request
      * @param array $options
      * @return Listing
      */
-    public function create(string $typeClass, Request $request, array $options = []): Listing
+    public function create(string $type, Request $request, array $options = []): Listing
     {
-        return $this->createListing(new $typeClass(), array_merge($options, [
+        // Load extension or create one:
+        if ($this->extensions->hasExtension($type)) {
+            $listingType = $this->extensions->getExtension($type);
+        } else {
+            $listingType = new $type();
+        }
+
+        return $this->createListing($listingType, array_merge($options, [
             'request' => $request
         ]));
     }
