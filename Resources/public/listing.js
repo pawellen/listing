@@ -69,6 +69,14 @@ var DataTablesListing = {};
 
                     return data;
                 },
+                dataSrc: function (response) {
+                    if (typeof response.redirect === 'string') {
+                        document.location = response.redirect;
+                        return {};
+                    }
+
+                    return response.data;
+                },
                 timeout: 15000,
                 error: function(xhr, textStatus, error) {
                     if (xhr.status === 401) {
@@ -76,14 +84,6 @@ var DataTablesListing = {};
                         window.location.reload();
                     }
                 }
-            },
-            dataSrc: function (response) {
-                if (typeof response.redirect === 'string') {
-                    document.location = response.redirect;
-                    return {};
-                }
-
-                return response.data;
             },
             drawCallback: function(settings) {
                 // Process html after re-draw table:
