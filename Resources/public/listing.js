@@ -72,7 +72,6 @@ var DataTablesListing = {};
                 dataSrc: function (response) {
                     if (typeof response.redirect === 'string') {
                         document.location = response.redirect;
-                        return {};
                     }
 
                     return response.data;

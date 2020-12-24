@@ -84,13 +84,14 @@ class Listing
 
     /**
      * @param Request|null $overrideRequest
+     * @param array $params
      * @return JsonResponse
      */
-    public function createResponse(Request $overrideRequest = null): JsonResponse
+    public function createResponse(Request $overrideRequest = null, array $params = []): JsonResponse
     {
         $data = $this->createData($overrideRequest, true);
         $data = $this->processDataAsHtml($data);
-        $result = $this->createDataTablesResult($data);
+        $result = $this->createDataTablesResult($data, $params);
 
         return new JsonResponse($result);
     }
@@ -369,16 +370,17 @@ class Listing
 
     /**
      * @param $data
+     * @param array $params
      * @return array
      */
-    protected function createDataTablesResult($data): array
+    protected function createDataTablesResult($data, array $params = []): array
     {
-        return [
+        return array_merge([
             'sEcho' => 0,
             'iTotalRecords' => $this->allResultsCount,
             'iTotalDisplayRecords' => $this->allResultsCount,
             'data' => $data,
-        ];
+        ], $params);
     }
 
 
@@ -538,4 +540,5 @@ class Listing
 
         throw new \LogicException('Unable to get root alias field name for field "' . $name . '", maybe you should add "field" option to this column');
     }
+
 }
