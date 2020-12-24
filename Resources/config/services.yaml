@@ -5,6 +5,7 @@ services:
         arguments:
             $twig: '@twig'
             $router: '@router'
+            $translator: '@translator'
             $config: '%pawellen_listing%'
 
     Pawellen\ListingBundle\Twig\ListingExtension:

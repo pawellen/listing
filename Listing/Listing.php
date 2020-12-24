@@ -88,6 +88,34 @@ class Listing
      */
     public function createResponse(Request $overrideRequest = null): JsonResponse
     {
+        $data = $this->createData($overrideRequest, true);
+        $data = $this->processDataAsHtml($data);
+        $result = $this->createDataTablesResult($data);
+
+        return new JsonResponse($result);
+    }
+
+
+    /**
+     * @param Request|null $overrideRequest
+     * @return array
+     */
+    public function createExport(Request $overrideRequest = null): array
+    {
+        $data = $this->createData($overrideRequest, false);
+        $data = $this->processDataAsArray($data);
+
+        return $data;
+    }
+
+
+    /**
+     * @param Request|null $overrideRequest
+     * @param bool $paginate
+     * @return array
+     */
+    public function createData(Request $overrideRequest = null, bool $paginate = true): array
+    {
         if (isset($this->options['data'])) {
             if (!is_array($this->options['data'])) {
                 throw new \LogicException('Parameter data must be an array');
@@ -102,15 +130,11 @@ class Listing
                 $filters = $parameters['_filter'];
                 unset($parameters['_filter']);
             }
-            $data = $this->loadData($parameters, $filters);
-            $data = $this->processData($data);
+            $data = $this->loadData($parameters, $filters, $paginate);
         }
 
-        $result = $this->createDataTablesResult($data);
-
-        return new JsonResponse($result);
+        return $data;
     }
-
 
     /**
      * @return bool|null
@@ -157,9 +181,10 @@ class Listing
     /**
      * @param array $parameters
      * @param array $filters
+     * @param bool $paginate
      * @return array
      */
-    protected function loadData(array $parameters, array $filters = []): array
+    protected function loadData(array $parameters, array $filters = [], bool $paginate = true): array
     {
         // Load DataTables parameters:
         $limit                  = isset($parameters['length']) && $parameters['length'] > 0 ? (int)$parameters['length'] : 0;
@@ -181,16 +206,27 @@ class Listing
             $queryBuilder->setMaxResults($limit);
         }
 
-        // Execute query using paginator:
-        $paginator = new Paginator($queryBuilder->getQuery(), true);
-        $this->firstResultsOffset = $limit;
-        $this->allResultsCount = count($paginator);
+        // Fetch results:
+        $data = [];
         $processRowCallback = isset($this->options['process_row_callback']) && is_callable($this->options['process_row_callback']);
 
-        // Fill data array:
-        $data = [];
-        foreach ($paginator as $row) {
-            $data[] = $processRowCallback ? $this->options['process_row_callback']($row) : $row;
+        if ($paginate) {
+            // Execute query using paginator:
+            $paginator = new Paginator($queryBuilder->getQuery(), true);
+            $this->firstResultsOffset = $limit;
+            $this->allResultsCount = count($paginator);
+
+            // Fill data array:
+            foreach ($paginator as $row) {
+                $data[] = $processRowCallback ? $this->options['process_row_callback']($row) : $row;
+            }
+        } else {
+            // Get all matching results:
+            foreach ($queryBuilder->getQuery()->getResult() as $row) {
+                $data[] = $processRowCallback ? $this->options['process_row_callback']($row) : $row;
+            }
+            $this->firstResultsOffset = 0;
+            $this->allResultsCount = count($data);
         }
 
         // Process result event:
@@ -205,8 +241,11 @@ class Listing
     /**
      * @param array $data
      * @return array
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
-    protected function processData(array $data): array
+    protected function processDataAsHtml(array $data): array
     {
         // Load renderer template:
         $this->renderer->load($this->options['template'] ?? null);
@@ -214,10 +253,41 @@ class Listing
         $table = [];
         foreach ($data as $row) {
             $tr = $this->getRowSpecialParams($row, true);
+
             /** @var ListingColumn $column */
             foreach ($this->columns as $column) {
                 $tr[] = $this->renderer->renderCell($column, $row);
             }
+            $table[] = $tr;
+        }
+
+        return $table;
+    }
+
+
+    /**
+     * @param array $data
+     * @return array
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    protected function processDataAsArray(array $data): array
+    {
+        // Load renderer template:
+        $this->renderer->load($this->options['template'] ?? null);
+
+        $table = [];
+        foreach ($data as $row) {
+            $tr = [];
+            /** @var ListingColumn $column */
+            foreach ($this->columns as $column) {
+                $key = $this->renderer->renderHeaderColumn($column, $row);
+                $tr[$key] = trim(strip_tags(
+                    $this->renderer->renderCell($column, $row)
+                ));
+            }
+
             $table[] = $tr;
         }
 

@@ -4,7 +4,7 @@ namespace Pawellen\ListingBundle\Renderer;
 
 use Pawellen\ListingBundle\Listing\Column\Type\ListingColumn;
 use Pawellen\ListingBundle\Listing\ListingView;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
@@ -23,6 +23,9 @@ class ListingRenderer
     /** @var Router */
     protected $router;
 
+    /** @var TranslatorInterface  */
+    protected $translator;
+
     /** @var object */
     protected $config;
 
@@ -40,12 +43,14 @@ class ListingRenderer
      * ListingRenderer constructor.
      * @param Environment $twig
      * @param RouterInterface $router
+     * @param TranslatorInterface $translator
      * @param array $config
      */
-    public function __construct(Environment $twig, RouterInterface $router, array $config)
+    public function __construct(Environment $twig, RouterInterface $router, TranslatorInterface $translator, array $config)
     {
         $this->twig = $twig;
         $this->router = $router;
+        $this->translator = $translator;
         $this->config = (object)$config;
     }
 
@@ -91,6 +96,20 @@ class ListingRenderer
 
             // Render block:
             return $this->template->renderBlock($blockName, $parameters, $this->blocks);
+        } catch (\Throwable $t) {
+            return $this->silent ? '!' : $t->getMessage();
+        }
+    }
+
+
+    /**
+     * @param ListingColumn $column
+     * @return string
+     */
+    public function renderHeaderColumn(ListingColumn $column): string
+    {
+        try {
+            return $this->translator->trans($column->getLabel());
         } catch (\Throwable $t) {
             return $this->silent ? '!' : $t->getMessage();
         }

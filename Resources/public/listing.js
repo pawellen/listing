@@ -2,6 +2,7 @@ var DataTablesListing = {};
 (function(self) {
     var ajaxSearchDelay = 450;
     var typingTimer;
+
     $.extend($.fn.dataTable.defaults, {
         language: {
             processing: '<div id="ico_loader"><i class="icon-2x icon-spinner icon-spin"></i><div>',
@@ -54,6 +55,18 @@ var DataTablesListing = {};
                             data[res.name] = res.value;
                         }
                     });
+
+                    // Join additional one-time-parameters to request:
+                    var params = $filters.data('params');
+                    if (params) {
+                        for (var _k in params) {
+                            if (params.hasOwnProperty(_k)) {
+                                data[_k] = params[_k];
+                            }
+                        }
+                    }
+                    $filters.data('params', null)
+
                     return data;
                 },
                 timeout: 15000,
@@ -63,6 +76,14 @@ var DataTablesListing = {};
                         window.location.reload();
                     }
                 }
+            },
+            dataSrc: function (response) {
+                if (typeof response.redirect === 'string') {
+                    document.location = response.redirect;
+                    return {};
+                }
+
+                return response.data;
             },
             drawCallback: function(settings) {
                 // Process html after re-draw table:
@@ -115,7 +136,7 @@ var DataTablesListing = {};
                     });
                 }
             },
-            //pagingType: "scrolling',
+            //pagingType: 'scrolling',
             pageLength: 20
         };
 
@@ -133,6 +154,13 @@ var DataTablesListing = {};
         });
         $filters.find('.datepicker').on('dp.change', function() {
             reDrawTableOnFilterInputEvent(this, table);
+        });
+        $filters.find('button').on('click', function() {
+            $filters.data('params', $.extend(
+                $filters.data('params'),
+                $(this).data()
+            ));
+            table.draw();
         });
 
         return table;
