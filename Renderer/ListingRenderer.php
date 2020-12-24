@@ -146,13 +146,11 @@ class ListingRenderer
 
     /**
      * @param string|null $template
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
+     * @param bool $force
      */
-    public function load(string $template = null): void
+    public function load(string $template = null, bool $force = false): void
     {
-        if ($this->template) {
+        if ($this->template && !$force) {
             return;
         }
 

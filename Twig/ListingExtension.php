@@ -49,7 +49,7 @@ class ListingExtension extends AbstractExtension
      */
     public function renderListing(ListingView $listingView, ?string $template = null): string
     {
-        $this->renderer->load($template ?: $listingView->getTemplateReference());
+        $this->renderer->load($template ?: $listingView->getTemplateReference(), true);
 
         return $this->renderer->renderListing($listingView);
     }
@@ -99,8 +99,5 @@ class ListingExtension extends AbstractExtension
     {
         return $this->renderer->renderListingBlock('listing_header_styles');
     }
-
-
-
 
 }
