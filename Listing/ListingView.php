@@ -71,7 +71,9 @@ class ListingView
      */
     public function getColumns(): array
     {
-        return $this->columns->getColumns();
+        return array_filter($this->columns->getColumns(), function (ListingColumn $column) {
+            return $column->onListing();
+        });
     }
 
 
@@ -162,10 +164,12 @@ class ListingView
 
         /** @var ListingColumn $column */
         foreach ($this->columns as $column) {
-            $columns[] = [
-                'searchable'    => $column->isSearchable(),
-                'orderable'     => $column->isSortable(),
-            ];
+            if ($column->onListing()) {
+                $columns[] = [
+                    'searchable'    => $column->isSearchable(),
+                    'orderable'     => $column->isSortable(),
+                ];
+            }
         }
 
         return array_merge([

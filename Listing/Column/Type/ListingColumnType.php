@@ -80,6 +80,24 @@ abstract class ListingColumnType implements ListingColumnTypeInterface
 
 
     /**
+     * @return bool
+     */
+    public function onListing(): bool
+    {
+        return ($this->options['on_listing'] ?? true) !== false;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function onExport(): bool
+    {
+        return ($this->options['on_export'] ?? true) !== false;
+    }
+
+
+    /**
      * @return string
      */
     abstract public function getType(): string;

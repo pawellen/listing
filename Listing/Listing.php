@@ -257,7 +257,9 @@ class Listing
 
             /** @var ListingColumn $column */
             foreach ($this->columns as $column) {
-                $tr[] = $this->renderer->renderCell($column, $row);
+                if ($column->onListing()) {
+                    $tr[] = $this->renderer->renderCell($column, $row);
+                }
             }
             $table[] = $tr;
         }
@@ -283,10 +285,12 @@ class Listing
             $tr = [];
             /** @var ListingColumn $column */
             foreach ($this->columns as $column) {
-                $key = $this->renderer->renderHeaderColumn($column, $row);
-                $tr[$key] = trim(strip_tags(
-                    $this->renderer->renderCell($column, $row)
-                ));
+                if ($column->onExport()) {
+                    $key = $this->renderer->renderHeaderColumn($column, $row);
+                    $tr[$key] = trim(strip_tags(
+                        $this->renderer->renderCell($column, $row)
+                    ));
+                }
             }
 
             $table[] = $tr;
@@ -313,7 +317,9 @@ class Listing
             ];
             /** @var ListingColumn $column */
             foreach ($this->columns as $column) {
-                $tr['values'][] = $this->renderer->renderCell($column, $row);
+                if ($column->onListing()) {
+                    $tr['values'][] = $this->renderer->renderCell($column, $row);
+                }
             }
             $table[] = $tr;
         }
