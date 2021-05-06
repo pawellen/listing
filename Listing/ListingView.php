@@ -103,9 +103,9 @@ class ListingView
                 ));
 
                 // Disable save state when data is submitted:
-                if ($form->isSubmitted()) {
-                    $this->options['save_state'] = false;
-                }
+                //if ($form->isSubmitted()) {
+                //    $this->options['save_state'] = false; // disabled, causes
+                //}
             }
 
             // Create view:
