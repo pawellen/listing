@@ -103,9 +103,6 @@ class ListingFactory
             return $lengthMenu;
         };
 
-        $columnBuilder = $this->createColumnBuilder($type, $options);
-        $filterBuilder = $this->createFilterBuilder($type, $options);
-
         // Load default options to resolver:
         $optionsResolver = new OptionsResolver();
         $optionsResolver->setRequired([
@@ -137,11 +134,25 @@ class ListingFactory
             'defer_load'        => $this->config->default_defer_load ?? false,
             'submit_filters'    => true,
             'view_settings'     => [],
+            'alternatives'      => [],
         ]);
         $optionsResolver->addNormalizer('page_length_menu', $pageLengthMenuOptionsNormalizer);
 
         // Modify default options by ListingType:
         $type->setDefaultOptions($optionsResolver);
+
+        // Resolve:
+        $options = $optionsResolver->resolve($options);
+
+        // Build:
+        $filterBuilder = $this->createFilterBuilder($type, $options);
+        $columnBuilder = $this->createColumnBuilder($type, $options);
+
+        // Alternatives (allo to use more than one columns set for exaple to define custom export):
+        $alternatives = [];
+        foreach ($options['alternatives'] as $alternative) {
+            $alternatives[$alternative] = $this->createColumnBuilder($type, $options, $alternative);
+        }
 
         return new Listing(
             $type->getName(),
@@ -149,7 +160,8 @@ class ListingFactory
             $filterBuilder->getFilters(),
             $this->doctrine,
             $this->renderer,
-            $optionsResolver->resolve($options)
+            $options,
+            $alternatives
         );
     }
 
@@ -157,13 +169,21 @@ class ListingFactory
     /**
      * @param ListingTypeInterface|null $type
      * @param array $options
+     * @param string $name
      * @return ColumnBuilder
      */
-    protected function createColumnBuilder(ListingTypeInterface $type = null, array $options = []): ColumnBuilder
+    protected function createColumnBuilder(ListingTypeInterface $type = null, array $options = [], string $name = 'columns'): ColumnBuilder
     {
         $columnBuilder = new ColumnBuilder();
         if ($type instanceof ListingTypeInterface) {
-            $type->buildColumns($columnBuilder, $options);
+
+            // Resolve method (typically buildColumns):
+            $method = 'build' . ucfirst($name);
+            if (!method_exists($type, $method)) {
+                throw new \LogicException('Unable to build columns, method ' . $method . '() doeas not exists in class "' . get_class($type) . '"');
+            }
+
+            $type->$method($columnBuilder, $options);
         }
 
         return $columnBuilder;

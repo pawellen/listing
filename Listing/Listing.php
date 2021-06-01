@@ -35,6 +35,9 @@ class Listing
     /** @var array */
     protected $options;
 
+    /** @var array */
+    protected $alternatives;
+
     /** @var int */
     protected $allResultsCount;
 
@@ -45,16 +48,17 @@ class Listing
     protected $propertyAccessor;
 
 
-
     /**
+     * Listing constructor.
      * @param string $name
      * @param Columns $columns
      * @param Filters $filters
      * @param ManagerRegistry $doctrine
      * @param ListingRenderer $renderer
      * @param array $options
+     * @param array $alternatives
      */
-    public function __construct(string $name, Columns $columns, Filters $filters, ManagerRegistry $doctrine, ListingRenderer $renderer, array $options = [])
+    public function __construct(string $name, Columns $columns, Filters $filters, ManagerRegistry $doctrine, ListingRenderer $renderer, array $options = [], array $alternatives = [])
     {
         $this->name = $name;
         $this->columns = $columns;
@@ -62,6 +66,7 @@ class Listing
         $this->doctrine = $doctrine;
         $this->renderer = $renderer;
         $this->options = $options;
+        $this->alternatives = $alternatives;
         $this->propertyAccessor = new PropertyAccessor();
     }
 
@@ -99,12 +104,13 @@ class Listing
 
     /**
      * @param Request|null $overrideRequest
+     * @param string|null $alternative
      * @return array
      */
-    public function createExport(Request $overrideRequest = null): array
+    public function createExport(Request $overrideRequest = null, ?string $alternative = null): array
     {
         $data = $this->createData($overrideRequest, false);
-        $data = $this->processDataAsArray($data);
+        $data = $this->processDataAsArray($data, $alternative);
 
         return $data;
     }
@@ -241,12 +247,10 @@ class Listing
 
     /**
      * @param array $data
+     * @param string|null $alternative
      * @return array
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
-    protected function processDataAsHtml(array $data): array
+    protected function processDataAsHtml(array $data, ?string $alternative = null): array
     {
         // Load renderer template:
         $this->renderer->load($this->options['template'] ?? null);
@@ -256,7 +260,7 @@ class Listing
             $tr = $this->getRowSpecialParams($row, true);
 
             /** @var ListingColumn $column */
-            foreach ($this->columns as $column) {
+            foreach ($this->getColumns($alternative) as $column) {
                 if ($column->onListing()) {
                     $tr[] = $this->renderer->renderCell($column, $row);
                 }
@@ -270,12 +274,10 @@ class Listing
 
     /**
      * @param array $data
+     * @param string|null $alternative
      * @return array
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
-    protected function processDataAsArray(array $data): array
+    protected function processDataAsArray(array $data, ?string $alternative = null): array
     {
         // Load renderer template:
         $this->renderer->load($this->options['template'] ?? null);
@@ -284,7 +286,7 @@ class Listing
         foreach ($data as $row) {
             $tr = [];
             /** @var ListingColumn $column */
-            foreach ($this->columns as $column) {
+            foreach ($this->getColumns($alternative) as $column) {
                 if ($column->onExport()) {
                     $key = $this->renderer->renderHeaderColumn($column, $row);
                     $tr[$key] = trim(strip_tags(
@@ -302,9 +304,10 @@ class Listing
 
     /**
      * @param array $data
+     * @param string|null $alternative
      * @return array
      */
-    protected function processInitialData(array $data): array
+    protected function processInitialData(array $data, ?string $alternative = null): array
     {
         // Load renderer template:
         $this->renderer->load($this->options['template'] ?? null);
@@ -316,7 +319,7 @@ class Listing
                 'params' => $this->getRowSpecialParams($row)
             ];
             /** @var ListingColumn $column */
-            foreach ($this->columns as $column) {
+            foreach ($this->getColumns($alternative) as $column) {
                 if ($column->onListing()) {
                     $tr['values'][] = $this->renderer->renderCell($column, $row);
                 }
@@ -444,7 +447,7 @@ class Listing
     {
         if ($orderColumnDefinitions) {
             foreach ($orderColumnDefinitions as $orderColumnDef) {
-                $orderColumn = $this->columns->getByIndex($orderColumnDef['column']);
+                $orderColumn = $this->getColumns()->getByIndex($orderColumnDef['column']);
                 if ($orderColumn instanceof ListingColumn && $orderColumn->isSortable()) {
                     $options = $orderColumn->getOptions();
                     if (isset($options['order_by'])) {
@@ -545,6 +548,24 @@ class Listing
         }
 
         throw new \LogicException('Unable to get root alias field name for field "' . $name . '", maybe you should add "field" option to this column');
+    }
+
+
+    /**
+     * @param string|null $name
+     * @return Columns
+     */
+    private function getColumns(?string $name = 'columns'): Columns
+    {
+        if ($name === null || $name === 'columns') {
+            return $this->columns;
+        } else {
+            if (empty($this->alternatives[$name])) {
+                throw new \LogicException('Undefined columns alternative "' . $name . '"');
+            }
+
+            return $this->alternatives[$name]->getColumns();
+        }
     }
 
 }
