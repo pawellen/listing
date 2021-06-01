@@ -212,6 +212,12 @@ class Listing
         $processRowCallback = isset($this->options['process_row_callback']) && is_callable($this->options['process_row_callback']);
 
         if ($paginate) {
+            // Set limits:
+            if ($limit > 0) {
+                $queryBuilder->setFirstResult($offset);
+                $queryBuilder->setMaxResults($limit);
+            }
+
             // Execute query using paginator:
             $paginator = new Paginator($queryBuilder->getQuery(), true);
             $this->firstResultsOffset = $limit;
