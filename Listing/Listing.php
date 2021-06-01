@@ -201,12 +201,6 @@ class Listing
         // Sorting:
         $this->applySorting($queryBuilder, $orderColumnDefinitions);
 
-        // Pagination:
-        if ($limit > 0) {
-            $queryBuilder->setFirstResult($offset);
-            $queryBuilder->setMaxResults($limit);
-        }
-
         // Fetch results:
         $data = [];
         $processRowCallback = isset($this->options['process_row_callback']) && is_callable($this->options['process_row_callback']);
