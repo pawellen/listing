@@ -511,18 +511,18 @@ class Listing
                 // If has option class then pass EntityRepository of this class otherwise pass new instance of QueryBuilder:
                 if (isset($this->options['class'])) {
                     $repository = $this->doctrine->getRepository($this->options['class']);
-                    $queryBuilder = $this->options['query_builder']($repository);
+                    $queryBuilder = $this->options['query_builder']($repository, $this->options);
                 } else {
                     $queryBuilder = $this->doctrine->getManager()->createQueryBuilder();
-                    $this->options['query_builder']($queryBuilder);
+                    $this->options['query_builder']($queryBuilder, $this->options);
                 }
             } else {
                 $queryBuilder = $this->options['query_builder'];
             }
         } else {
             if (isset($this->options['class'])) {
-                $queryBuilder = $this->doctrine->getManager()->createQueryBuilder();
-                $queryBuilder->select('q')
+                $queryBuilder = $this->doctrine->getManager()->createQueryBuilder()
+                    ->select('q')
                     ->from($this->options['class'], 'q');
             }
         }
