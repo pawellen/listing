@@ -5,6 +5,7 @@ namespace Pawellen\ListingBundle\Listing\Filter;
 use Pawellen\ListingBundle\Listing\Filter\Type\ListingFilter;
 use Pawellen\ListingBundle\Listing\Filter\Type\ListingFilterType;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -27,8 +28,8 @@ class FilterBuilder
      */
     public function __construct(FormFactoryInterface $formFactory, string $name = '')
     {
-        $this->formBuilder = $formFactory->createNamedBuilder($name, 'Symfony\Component\Form\Extension\Core\Type\FormType', null, [
-            'csrf_protection' => false,
+        $this->formBuilder = $formFactory->createNamedBuilder($name, FormType::class, null, [
+            //'csrf_protection' => false,
             'allow_extra_fields' => true,
         ]);
     }
