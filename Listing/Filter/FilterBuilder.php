@@ -29,7 +29,7 @@ class FilterBuilder
     public function __construct(FormFactoryInterface $formFactory, string $name = '')
     {
         $this->formBuilder = $formFactory->createNamedBuilder($name, FormType::class, null, [
-            //'csrf_protection' => false,
+            'csrf_protection' => false,
             'allow_extra_fields' => true,
         ]);
     }
