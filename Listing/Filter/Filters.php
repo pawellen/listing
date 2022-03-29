@@ -127,10 +127,7 @@ class Filters implements \Iterator, \ArrayAccess
         return isset($this->filters[$offset]);
     }
 
-
-    /**
-     * @inheritdoc
-     */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->filters[$offset] ?? null;
