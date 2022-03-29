@@ -513,7 +513,7 @@ class Listing
                     $repository = $this->doctrine->getRepository($this->options['class'], $this->options['entity_manger']);
                     $queryBuilder = $this->options['query_builder']($repository, $this->options);
                 } else {
-                    $queryBuilder = $this->doctrine->getManager()->createQueryBuilder();
+                    $queryBuilder = $this->doctrine->getManager($this->options['entity_manger'])->createQueryBuilder();
                     $this->options['query_builder']($queryBuilder, $this->options);
                 }
             } else {
@@ -521,7 +521,7 @@ class Listing
             }
         } else {
             if (isset($this->options['class'])) {
-                $queryBuilder = $this->doctrine->getManager()->createQueryBuilder()
+                $queryBuilder = $this->doctrine->getManager($this->options['entity_manger'])->createQueryBuilder()
                     ->select('q')
                     ->from($this->options['class'], 'q');
             }
