@@ -120,6 +120,7 @@ class ListingFactory
 
         $optionsResolver->setDefaults([
             'template'          => $this->getDefaultTemplate($options),
+            'entity_manger'     => null,
             'data_source'       => $dataSourceResolver,
             //'date_format'       => 'd-m-Y H:i:s',
             'page_length'       => $this->config->default_page_length ?? 10,
