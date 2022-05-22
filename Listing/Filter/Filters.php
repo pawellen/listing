@@ -74,46 +74,59 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
-    #[\ReturnTypeWillChange]
+    /**
+     * @inheritdoc
+     */
     public function rewind()
     {
         return reset($this->filters);
     }
 
 
-    #[\ReturnTypeWillChange]
+    /**
+     * @inheritdoc
+     */
     public function current()
     {
         return current($this->filters);
     }
 
 
-    #[\ReturnTypeWillChange]
+    /**
+     * @inheritdoc
+     */
     public function key()
     {
         return key($this->filters);
     }
 
 
-    #[\ReturnTypeWillChange]
+    /**
+     * @inheritdoc
+     */
     public function next()
     {
         return next($this->filters);
     }
 
 
-    #[\ReturnTypeWillChange]
+    /**
+     * @inheritdoc
+     */
     public function valid(): bool
     {
         return key($this->filters) !== null;
     }
 
 
-    #[\ReturnTypeWillChange]
+    /**
+     * @inheritdoc
+     */
     public function offsetExists($offset): bool
     {
         return isset($this->filters[$offset]);
     }
+
 
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
@@ -133,10 +146,11 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
-    #[\ReturnTypeWillChange]
+    /**
+     * @inheritdoc
+     */
     public function offsetUnset($offset): void
     {
         unset($this->filters[$offset]);
     }
-
 }
