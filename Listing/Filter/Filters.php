@@ -102,15 +102,14 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
+    #[\ReturnTypeWillChange]
     public function valid(): bool
     {
         return key($this->filters) !== null;
     }
 
 
-    /**
-     * @inheritdoc
-     */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset): bool
     {
         return isset($this->filters[$offset]);
@@ -123,9 +122,7 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
-    /**
-     * @inheritdoc
-     */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
@@ -136,9 +133,7 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
-    /**
-     * @inheritdoc
-     */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
         unset($this->filters[$offset]);
