@@ -74,9 +74,7 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
-    /**
-     * @inheritdoc
-     */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         return reset($this->filters);
