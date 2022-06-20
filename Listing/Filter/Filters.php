@@ -81,27 +81,21 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
-    /**
-     * @inheritdoc
-     */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return current($this->filters);
     }
 
 
-    /**
-     * @inheritdoc
-     */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return key($this->filters);
     }
 
 
-    /**
-     * @inheritdoc
-     */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         return next($this->filters);
@@ -144,9 +138,7 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
-    /**
-     * @inheritdoc
-     */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
         unset($this->filters[$offset]);
