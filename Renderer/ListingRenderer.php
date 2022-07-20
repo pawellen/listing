@@ -64,10 +64,13 @@ class ListingRenderer
         try {
             $this->load();
 
-            return $this->template->renderBlock('listing', [
+            // Create parameters:
+            $parameters = array_merge($this->twig->getGlobals(), [
                 'listing' => $listingView,
                 'filters' => $listingView->getFiltersFormView()
-            ], $this->blocks);
+            ]);
+
+            return $this->template->renderBlock('listing', $parameters, $this->blocks);
         } catch (\Throwable $t) {
             return $this->silent ? '!' : $t->getMessage();
         }
@@ -89,7 +92,7 @@ class ListingRenderer
 
             // Create template block name and parameters:
             $blockName = 'listing_' . $column->getType();
-            $parameters = array_merge([
+            $parameters = array_merge($this->twig->getGlobals(), [
                 'column' => $column,
                 'row'    => $row,
             ], $values);
