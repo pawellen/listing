@@ -161,7 +161,7 @@ class ListingRenderer
         $this->template = $this->twig->load($this->config->template)->unwrap();
 
         // Get current template (rendered by listing):
-        $template = $this->twig->load($template)->unwrap();
+        $template = $template ? $this->twig->load($template)->unwrap() : null;
 
         // Get blocks from first main layout:
         $this->blocks = $this->template->getBlocks() ?: [];
