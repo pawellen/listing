@@ -157,11 +157,40 @@ class ListingRenderer
             return;
         }
 
+        // Get global template (listing_div_layout):
         $this->template = $this->twig->load($this->config->template)->unwrap();
-        $this->blocks = array_merge(
-            $this->template->getBlocks() ?: [],
-            $template ? $this->twig->load($template)->unwrap()->getBlocks() : []
-        );
+
+        // Get current template (rendered by listing):
+        $template = $this->twig->load($template)->unwrap();
+
+        // Get blocks from first main layout:
+        $this->blocks = $this->template->getBlocks() ?: [];
+
+        // Get blocks from parent templates:
+        $hierarchy = [];
+        while ($template) {
+            $hierarchy[] = $template->getBlocks() ?: [];
+
+            // Traverse up:
+            $parent = $template->getParent([]);
+            if ($parent instanceof Template) {
+                $template = $parent;
+            } elseif ($parent instanceof TemplateWrapper) {
+                $template = $parent->unwrap();
+            } else {
+                $template = false;
+            }
+        }
+
+        // Reverse hierarchy:
+        $hierarchy = array_reverse($hierarchy);
+
+        // Join blocks:
+        foreach ($hierarchy as $blocks) {
+            if ($blocks) {
+                $this->blocks = array_merge($this->blocks, $blocks);
+            }
+        }
     }
 
 
