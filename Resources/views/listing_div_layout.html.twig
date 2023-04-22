@@ -1,6 +1,7 @@
 {% block listing_header_scripts %}
     <script type="text/javascript" src="{{ asset('bundles/pawellenlisting/datatables.min.js') }}" charset="utf8"></script>
     <script type="text/javascript" src="{{ asset('bundles/pawellenlisting/listing.js') }}" charset="utf8"></script>
+    {{ block('listing_language_config') }}
 {% endblock %}
 
 

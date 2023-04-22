@@ -3,25 +3,25 @@ var DataTablesListing = {};
     var ajaxSearchDelay = 450;
     var typingTimer;
 
-    $.extend($.fn.dataTable.defaults, {
-        language: {
-            processing: '<div id="ico_loader"><i class="icon-2x icon-spinner icon-spin"></i><div>',
-            lengthMenu: 'Pokaż _MENU_ pozycji',
-            zeroRecord: 'Zmodyfikuj kryteria wyszukiwania, aby zobaczyć wyniki',
-            emptyTable: 'Zmodyfikuj kryteria wyszukiwania, aby zobaczyć wyniki',
-            info: 'Pozycje od _START_ do _END_ z _TOTAL_ łącznie',
-            infoEmpty: 'Pozycji 0 z 0 dostępnych',
-            infoFiltered: '(filtrowanie spośród _MAX_ dostępnych pozycji)',
-            infoPostFix: '',
-            search: 'Szukaj:',
-            paginate: {
-                first: 'Pierwsza',
-                previous: 'Poprzednia',
-                next: 'Następna',
-                last: 'Ostatnia'
-            }
-        }
-    });
+    // $.extend($.fn.dataTable.defaults, {
+    //     language: {
+    //         processing: '<div id="ico_loader"><i class="icon-2x icon-spinner icon-spin"></i><div>',
+    //         lengthMenu: 'Pokaż _MENU_ pozycji',
+    //         zeroRecord: 'Zmodyfikuj kryteria wyszukiwania, aby zobaczyć wyniki',
+    //         emptyTable: 'Zmodyfikuj kryteria wyszukiwania, aby zobaczyć wyniki',
+    //         info: 'Pozycje od _START_ do _END_ z _TOTAL_ łącznie',
+    //         infoEmpty: 'Pozycji 0 z 0 dostępnych',
+    //         infoFiltered: '(filtrowanie spośród _MAX_ dostępnych pozycji)',
+    //         infoPostFix: '',
+    //         search: 'Szukaj:',
+    //         paginate: {
+    //             first: 'Pierwsza',
+    //             previous: 'Poprzednia',
+    //             next: 'Następna',
+    //             last: 'Ostatnia'
+    //         }
+    //     }
+    // });
 
     var reDrawTableOnFilterInputEvent = function(elementh, table) {
 
