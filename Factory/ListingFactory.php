@@ -134,6 +134,7 @@ class ListingFactory
             'save_state'        => $this->config->default_save_state ?? false,
             'defer_load'        => $this->config->default_defer_load ?? false,
             'submit_filters'    => true,
+            'trim_filters'      => true,
             'view_settings'     => [],
             'alternatives'      => [],
         ]);

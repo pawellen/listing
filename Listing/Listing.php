@@ -476,12 +476,17 @@ class Listing
     {
         $options = $filter->getOptions();
 
+        // Handle default trim:
+        if ($this->options['trim_filters']) {
+            $value = trim($value);
+        }
+
         // To delete (ensure is compatible with previous version:
-        if (isset($options['eval']) && !isset($options['transform']))
+        if (isset($options['eval']) && !isset($options['transform'])) {
             $options['transform'] = $options['eval'];
+        }
 
         if (!isset($options['transform'])) {
-
             return $value;
         }
 
