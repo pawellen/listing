@@ -54,73 +54,50 @@ class Columns implements \Iterator, \ArrayAccess
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->columns);
+        reset($this->columns);
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function current()
+    public function current(): mixed
     {
         return current($this->columns);
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function key()
+    public function key(): mixed
     {
         return key($this->columns);
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function next()
+    #[\ReturnTypeWillChange]
+    public function next(): mixed
     {
         return next($this->columns);
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function valid()
+    public function valid(): bool
     {
         return key($this->columns) !== null;
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->columns[$offset]);
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->columns[$offset] ?? null;
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->columns[] = $value;
@@ -130,10 +107,7 @@ class Columns implements \Iterator, \ArrayAccess
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->columns[$offset]);
     }

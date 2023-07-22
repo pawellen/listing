@@ -74,29 +74,26 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
-    #[\ReturnTypeWillChange]
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->filters);
+        reset($this->filters);
     }
 
 
-    #[\ReturnTypeWillChange]
-    public function current()
+    public function current(): mixed
     {
         return current($this->filters);
     }
 
 
-    #[\ReturnTypeWillChange]
-    public function key()
+    public function key(): mixed
     {
         return key($this->filters);
     }
 
 
     #[\ReturnTypeWillChange]
-    public function next()
+    public function next(): mixed
     {
         return next($this->filters);
     }
@@ -120,14 +117,12 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->filters[$offset] ?? null;
     }
 
 
-    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
@@ -138,7 +133,6 @@ class Filters implements \Iterator, \ArrayAccess
     }
 
 
-    #[\ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
         unset($this->filters[$offset]);
