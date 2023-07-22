@@ -217,7 +217,14 @@ class ListingFactory
     protected function getDefaultTemplate(array $options): ?string
     {
         if (isset($options['request']) && $options['request']->get('_template')) {
-            return $options['request']->get('_template')->getTemplate();
+            $template = $options['request']->get('_template');
+
+            // New or old template annotation:
+            if ($template instanceof \Symfony\Bridge\Twig\Attribute\Template) {
+                return $template->template;
+            } else {
+                return $template->getTemplate();
+            }
         }
 
         return null;
