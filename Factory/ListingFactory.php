@@ -174,7 +174,7 @@ class ListingFactory
      * @param string $name
      * @return ColumnBuilder
      */
-    protected function createColumnBuilder(ListingTypeInterface $type = null, array $options = [], string $name = 'columns'): ColumnBuilder
+    protected function createColumnBuilder(?ListingTypeInterface $type = null, array $options = [], string $name = 'columns'): ColumnBuilder
     {
         $columnBuilder = new ColumnBuilder();
         if ($type instanceof ListingTypeInterface) {
@@ -197,7 +197,7 @@ class ListingFactory
      * @param array $options
      * @return FilterBuilder
      */
-    protected function createFilterBuilder(ListingTypeInterface $type = null, array $options = []): FilterBuilder
+    protected function createFilterBuilder(?ListingTypeInterface $type = null, array $options = []): FilterBuilder
     {
         if ($type instanceof ListingTypeInterface) {
             $filterBuilder = new FilterBuilder($this->formFactory, $type->getName());

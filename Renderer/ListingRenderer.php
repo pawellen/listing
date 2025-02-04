@@ -151,7 +151,7 @@ class ListingRenderer
      * @param string|null $template
      * @param bool $force
      */
-    public function load(string $template = null, bool $force = false): void
+    public function load(?string $template = null, bool $force = false): void
     {
         if ($this->template && !$force) {
             return;
