@@ -92,7 +92,7 @@ class Listing
      * @param array $params
      * @return JsonResponse
      */
-    public function createResponse(Request $overrideRequest = null, array $params = []): JsonResponse
+    public function createResponse(?Request $overrideRequest = null, array $params = []): JsonResponse
     {
         $data = $this->createData($overrideRequest, true);
         $data = $this->processDataAsHtml($data);
@@ -107,7 +107,7 @@ class Listing
      * @param string|null $alternative
      * @return array
      */
-    public function createExport(Request $overrideRequest = null, ?string $alternative = null): array
+    public function createExport(?Request $overrideRequest = null, ?string $alternative = null): array
     {
         $data = $this->createData($overrideRequest, false);
         $data = $this->processDataAsArray($data, $alternative);
@@ -121,7 +121,7 @@ class Listing
      * @param bool $paginate
      * @return array
      */
-    public function createData(Request $overrideRequest = null, bool $paginate = true): array
+    public function createData(?Request $overrideRequest = null, bool $paginate = true): array
     {
         if (isset($this->options['data'])) {
             if (!is_array($this->options['data'])) {
