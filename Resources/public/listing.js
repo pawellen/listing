@@ -194,7 +194,7 @@ var DataTablesListing = {};
             if (item.val() instanceof Array && item.val().length > 0) {
                 value = item.val();
             }
-            name = '_filter[' + item.attr('name').replace('[]', '') + ']';
+            name = '_filter[' + getLastChunkOfInputName(item.attr('name').replace('[]', '')) + '][]';
         }
         else if ((type === 'checkbox' || type === 'radio')) {
             if (item.prop('checked')) {

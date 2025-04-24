@@ -401,9 +401,14 @@ class Listing
     {
         $arg = 0;
         foreach ($filters as $name => $value) {
-            if (!isset($this->filters[$name]) || (string)$value === '') {
+            if (!isset($this->filters[$name])) {
                 continue;
             }
+
+            if ($value === '' || (is_array($value) && empty($value))) {
+                continue;
+            }
+
 
             /** @var ListingFilter $filter */
             $filter = $this->filters[$name];
@@ -478,7 +483,11 @@ class Listing
 
         // Handle default trim:
         if ($this->options['trim_filters']) {
-            $value = trim($value);
+            if (is_array($value)) {
+                $value = array_map('trim', $value);
+            } else {
+                $value = trim($value);
+            }
         }
 
         // To delete (ensure is compatible with previous version:
